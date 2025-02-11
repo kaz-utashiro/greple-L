@@ -192,8 +192,11 @@ sub finalize {
 	$i++;
 	$update++;
     }
-    $update or return;
-    $app->setopt(default => qw(--cm N));
+    if ($update > 0) {
+	my @default = qw(--cm N);
+	push @default, qw(--need=1) if $update > 1;
+	$app->setopt(default => @default);
+    }
 }
 
 sub line_to_region {
