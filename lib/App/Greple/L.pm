@@ -24,23 +24,68 @@ regions which can be used in B<greple> options.
 
 =over 7
 
-=item B<-L>=I<line numbers>
+=item B<-ML> I<line numbers>
 
-Simply, next command will show 200th line with before/after 10 lines
-of the file:
+If a line number argument immediately follows B<-ML> module option, it
+is recognized as a line number.  Note that, this format implicitly
+adds the C<--cm N> option to disable the coloring feature.
 
-    greple -ML -L 200 -C10 file
+Next command will show 42nd line.
 
-If you don't like lines displayed with color, use B<--nocolor> option
-or set colormap to something do nothing like B<--cm=N>.
+    greple -ML 42 file
 
 Multiple lines can be specified by joining with comma:
 
-    greple -ML -L 10,20,30
+    greple -ML 42,52,62
 
-It is ok to use B<-L> option multiple times, like:
+Range can be specified by colon:
 
-    greple -ML -L 10 -L 20 -L 30
+    greple -ML 42:84
+
+You can also specify the step with range.  Next command will print
+all even lines from line 10 to 20:
+
+    greple -ML 10:20:2
+
+Any of them can be omitted.  Next commands print all, odd and even
+lines.
+
+    greple -ML ::    # all lines
+    greple -ML ::2   # odd lines
+    greple -ML 2::2  # even lines
+
+If start and end number is negative, they are subtracted from the
+maxmum line number.  If the end number is prefixed by plus (`+') sign,
+it is summed with start number.  Next commands print top and last 10
+lines respectively.
+
+    greple -ML :+9   # top 10 lines
+    greple -ML -9:   # last 10 lines
+
+If forth parameter is given, it describes how many lines is included
+in that step cycle.  For example, next command prints top 3 lines in
+every 10 lines.
+
+    greple -ML ::10:3
+
+When step count is omitted, forth value is used if available.  Next
+command print every 10 lines in group.
+
+    greple -ML :::10 --blockend=-- /etc/services
+
+=item B<-L>=I<line numbers>
+
+C<-L> is an option to explicitly specify line numbers.  All of the
+above commands can be specified using the C<-L> option.  The only
+difference is that the coloring feature is not automatically disabled.
+
+    greple -ML -L 42
+    greple -ML -L 10:20:2
+    greple -ML -L :+9
+
+B<-L> option can be used multiple times, like:
+
+    greple -ML -L 42 -L 52 -L 62
 
 But this command produce nothing, because each line definitions are
 taken as a different pattern, and B<greple> prints lines only when all
@@ -48,59 +93,12 @@ patterns matched.  You can relax the condition by C<--need 1> option
 in such case, then you will get expected result.  Next example will
 display 10th, 20th and 30th lines in different colors.
 
-    greple -ML -L 10 -L 20 -L 30 --need 1
-
-Range can be specified by colon:
-
-    greple -ML -L 10:20
-
-You can also specify the step with range.  Next command will print
-all even lines from line 10 to 20:
-
-    greple -ML -L 10:20:2
-
-Any of them can be omitted.  Next commands print all, odd and even
-lines.
-
-    greple -ML -L ::		# all lines
-    greple -ML -L ::2	# odd lines
-    greple -ML -L 2::2	# even lines
-
-If start and end number is negative, they are subtracted from the
-maxmum line number.  If the end number is prefixed by plus (`+') sign,
-it is summed with start number.  Next commands print top and last 10
-lines respectively.
-
-    greple -ML -L :+9	# top 10 lines
-    greple -ML -L -9:	# last 10 lines
+    greple -ML -L 42 -L 52 -L 62 --need 1
 
 Next example print all lines of the file, each line in four different
 colors.
 
     greple -ML -L=1::4 -L=2::4 -L=3::4 -L=4::4 --need 1
-
-If forth parameter is given, it describes how many lines is included
-in that step cycle.  For example, next command prints top 3 lines in
-every 10 lines.
-
-    greple -ML -L ::10:3
-
-When step count is omitted, forth value is used if available.  Next
-command print every 10 lines in different colors.
-
-    greple -ML -L :::10 --ci=A /etc/services
-
-=item B<-ML> I<line numbers>
-
-If a line number argument immediately follows B<-ML> module option,
-it is recognized as a line number without the C<-L> option. Thus, the
-above example can also be specified as follows:
-
-    greple -ML ::10:3
-
-When this notation is used, the option C<--cm N> is added to disable
-coloring of matched portion.  This is to make it easier to use as a
-filter to extract a specific range of lines.
 
 =item B<L>=I<line numbers>
 
