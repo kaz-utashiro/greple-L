@@ -91,7 +91,7 @@ But this command produce nothing, because each line definitions are
 taken as a different pattern, and B<greple> prints lines only when all
 patterns matched.  You can relax the condition by C<--need 1> option
 in such case, then you will get expected result.  Next example will
-display 10th, 20th and 30th lines in different colors.
+display 42nd, 52nd and 62nd lines in different colors.
 
     greple -ML -L 42 -L 52 -L 62 --need 1
 
