@@ -1,4 +1,4 @@
-
+[![Actions Status](https://github.com/kaz-utashiro/greple-L/workflows/test/badge.svg)](https://github.com/kaz-utashiro/greple-L/actions) [![MetaCPAN Release](https://badge.fury.io/pl/App-Greple-L.svg)](https://metacpan.org/release/App-Greple-L)
 # NAME
 
 L - Greple module to produce result by line numbers
