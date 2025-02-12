@@ -51,6 +51,11 @@ like(run('--norc -ML -n --inside L=2:4 a t/SAMPLE.txt')->stdout,
 like(run('--norc -ML 2::2 -n t/SAMPLE.txt')->stdout,
      lines(map $_ * 2, 1..14), "-ML 2::2");
 
+# w/o -L
+like(run('--norc -ML 1:5 11:15 21:25 -n t/SAMPLE.txt')->stdout,
+     lines(1..5,11..15,21..25), "-ML 1:5 11:15 21:25");
+
+# offload
 like(run('--norc -ML --offload "seq 2 4" -n t/SAMPLE.txt')->stdout,
      lines(2..4), '-ML --offload "seq 2 4"');
 
