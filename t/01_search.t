@@ -39,6 +39,9 @@ like(run('--norc -ML -n -L -26:+2 t/SAMPLE.txt')->stdout,
 like(run('--norc -ML -n -L :: t/SAMPLE.txt')->stdout,
      lines(1..28), "-L ::");
 
+like(run('--norc -ML -n -L :-8: t/SAMPLE.txt')->stdout,
+     lines(1..28-8), "-L :-8:");
+
 like(run('--norc -ML -n -L ::2 t/SAMPLE.txt')->stdout,
      lines(map $_ * 2 - 1, 1..14), "-L ::2");
 

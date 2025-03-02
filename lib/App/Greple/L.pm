@@ -179,7 +179,13 @@ my %param = (
     auto => 1,
 );
 
-sub is_number { $_[0] =~ /^-?[\d:,]+$/ }
+sub is_number {
+    $_[0] =~ m{^
+	       ( (?: [-+]?\d+ | : )+ )
+	       ( , (?1) )*
+	       $
+	  }x;
+}
 
 sub finalize {
     my($app, $argv) = @_;
