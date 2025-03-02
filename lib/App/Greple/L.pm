@@ -3,7 +3,7 @@ package App::Greple::L;
 use v5.14;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 =head1 NAME
 
@@ -15,7 +15,7 @@ greple -ML
 
 =head1 VERSION
 
-Version 1.00
+Version 1.01
 
 =head1 DESCRIPTION
 
