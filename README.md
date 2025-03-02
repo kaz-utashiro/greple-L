@@ -20,7 +20,8 @@ regions which can be used in **greple** options.
 
     If a line number argument immediately follows **-ML** module option, it
     is recognized as a line number.  Note that, this format implicitly
-    adds the `--cm N` option to disable the coloring feature.
+    adds the `--cm N` option to disable the coloring feature.  Use the
+    `--cm @` option to cancel it.
 
     Next command will show 42nd line.
 

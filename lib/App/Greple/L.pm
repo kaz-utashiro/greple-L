@@ -28,7 +28,8 @@ regions which can be used in B<greple> options.
 
 If a line number argument immediately follows B<-ML> module option, it
 is recognized as a line number.  Note that, this format implicitly
-adds the C<--cm N> option to disable the coloring feature.
+adds the C<--cm N> option to disable the coloring feature.  Use the
+C<--cm @> option to cancel it.
 
 Next command will show 42nd line.
 
