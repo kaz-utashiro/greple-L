@@ -182,10 +182,11 @@ my %param = (
 
 sub is_number {
     $_[0] =~ m{^
-	       (?<SPEC> (?: [-+]?\d+ | : )+ )
-	       (?: , (?&SPEC) )*
+	        (?![+])
+		(?<SPEC> (?: [-+]? \d+ | : )+ )
+		(?: , (?&SPEC) )*
 	       $
-	  }x;
+	      }x;
 }
 
 sub finalize {
@@ -201,7 +202,8 @@ sub finalize {
 	$number++;
     }
     if ($number > 0) {
-	my @default = qw(--cm N);
+	my @default = $app->default;
+	push @default, qw(--cm N);
 	push @default, qw(--need=1) if $number > 1;
 	$app->setopt(default => @default);
     }
@@ -210,6 +212,7 @@ sub finalize {
 use Getopt::EX::Numbers;
 
 sub line_to_region {
+$DB::single = 1;
     state($target, @lines, $numbers);
     if (not defined $target or $target != \$_) {
 	$target = \$_;
