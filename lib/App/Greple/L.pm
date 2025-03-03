@@ -26,17 +26,19 @@ regions which can be used in B<greple> options.
 
 =item B<-ML> I<line numbers>
 
-If a line number argument immediately follows B<-ML> module option, it
-is recognized as a line number.  Note that, this format implicitly
-adds the C<--cm N> option to disable the coloring feature.  Use the
-C<--cm @> option to cancel it.
+If a line number arguments immediately follows B<-ML> module option,
+they are recognized as line numbers.  Note that, this format
+implicitly adds the C<--cm N> option to disable the coloring feature.
+Use the C<--cm @> option to cancel it.
 
 Next command will show 42nd line.
 
     greple -ML 42 file
 
-Multiple lines can be specified by joining with comma:
+Multiple lines can be specified separately or by comma-joined single
+parameter:
 
+    greple -ML 42 52 62
     greple -ML 42,52,62
 
 Range can be specified by colon:
@@ -180,14 +182,16 @@ my %param = (
     auto => 1,
 );
 
-sub is_number {
-    $_[0] =~ m{^
-	        (?![+])
-		(?<SPEC> (?: [-+]? \d+ | : )+ )
-		(?: , (?&SPEC) )*
-	       $
-	      }x;
+sub is_numbers {
+    local *_ = @_ ? \$_[0] : \$_;
+    m{^
+	(?![+])
+	(?<SPEC> (?: [-+]? \d+ | : )+ )
+	(?: , (?&SPEC) )*
+      $
+    }x;
 }
+sub isnt_numbers { not is_numbers @_ }
 
 sub finalize {
     my($app, $argv) = @_;
@@ -195,10 +199,10 @@ sub finalize {
     my $number = 0;
     for (my $i = 0; $i < @$argv; $i++) {
 	local $_ = $argv->[$i];
-	(is_number($_) and ! -f $_) or last;
+	last if isnt_numbers or -f;
 	splice(@$argv, $i, 1,
-	       my @new = ('--le', sprintf("&line(%s)", $_)));
-	$i += @new - 1;
+	       my @opt = ('--le', "&line($_)"));
+	$i += @opt - 1;
 	$number++;
     }
     if ($number > 0) {

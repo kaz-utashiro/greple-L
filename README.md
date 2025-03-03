@@ -18,17 +18,19 @@ regions which can be used in **greple** options.
 
 - **-ML** _line numbers_
 
-    If a line number argument immediately follows **-ML** module option, it
-    is recognized as a line number.  Note that, this format implicitly
-    adds the `--cm N` option to disable the coloring feature.  Use the
-    `--cm @` option to cancel it.
+    If a line number arguments immediately follows **-ML** module option,
+    they are recognized as line numbers.  Note that, this format
+    implicitly adds the `--cm N` option to disable the coloring feature.
+    Use the `--cm @` option to cancel it.
 
     Next command will show 42nd line.
 
         greple -ML 42 file
 
-    Multiple lines can be specified by joining with comma:
+    Multiple lines can be specified separately or by comma-joined single
+    parameter:
 
+        greple -ML 42 52 62
         greple -ML 42,52,62
 
     Range can be specified by colon:
